@@ -1,0 +1,47 @@
+# Ambiente Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+pip-log.txt
+pip-delete-this-directory.txt
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Dados e modelos
+data/*.jsonl
+models/
+checkpoint-*/
+
+# Logs
+logs/
+*.log
+runs/
+wandb/
+
+# Arquivo de configuração local
+.env
+.env.local
+
+# Cache de Hugging Face
+.cache/
+huggingface/
+
+# Artifacts jupyter
+.ipynb_checkpoints/
+*.ipynb
+
+# Sistema
+.pytest_cache/
+.coverage
