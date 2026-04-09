@@ -1,7 +1,7 @@
 """
 Configurações centralizadas para o pipeline de fine-tuning
 """
-
+ 
 from dataclasses import dataclass
 from typing import Optional
 
