@@ -31,7 +31,7 @@ def test_imports() -> bool:
     }
     
     all_ok = True
-    for module, name in try_imports.items():
+    for module, name in try_imports.items(): 
         try:
             __import__(module)
             logger.info(f"  ✅ {name} ({module})")

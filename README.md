@@ -269,7 +269,7 @@ print(tokenizer.decode(outputs[0]))
 
 ### Atribuição de IA
 
-**Partes geradas/complementadas com IA, revisadas por [Wendril Gabriel]**
+**Partes geradas/complementadas com IA, revisadas por Wendril Gabriel** 
 
 Este pipeline foi desenvolvido com assistência de IA, com reflexão crítica e validação manual de:
 - Arquitectura de configuração LoRA/QLoRA

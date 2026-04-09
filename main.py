@@ -80,7 +80,7 @@ def main():
         "--all",
         action="store_true",
         help="Executar pipeline completo (setup → dados → train)"
-    )
+    ) 
     
     parser.add_argument(
         "--skip-checks",
