@@ -81,9 +81,32 @@ source venv/Scripts/activate  # Windows
 pip install -r requirements.txt
 ```
 
-**Nota sobre GPU:**
-- CUDA 11.8+ recomendado para melhor desempenho
-- Verificar: `nvidia-smi`
+**Para usar com GPU NVIDIA:**
+
+1. Instale CUDA Toolkit 12.1+ ([Download](https://developer.nvidia.com/cuda-downloads))
+2. Depois instale PyTorch com suporte CUDA:
+
+```bash
+# Para CUDA 12.1 (recomendado)
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+
+# Para CUDA 11.8 (alternativo)
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu118
+```
+
+3. Instale outras dependências:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Verifique se CUDA está funcionando:
+
+```bash
+python -c "import torch; print(f'CUDA: {torch.cuda.is_available()}'); print(f'GPU: {torch.cuda.get_device_name(0) if torch.cuda.is_available() else \"None\"}')"
+```
+
+**Se não tem GPU ou CUDA**, o código rodará em CPU (mas muito mais lento).
 
 ## Passo 1: Gerar Dataset Sintético
 

@@ -1,5 +1,6 @@
 # Ambiente Python
 venv/
+venv_gpu/
 __pycache__/
 *.py[cod]
 *$py.class
