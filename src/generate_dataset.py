@@ -13,24 +13,24 @@ import logging
 
 from openai import OpenAI
 
-# Configurar logging
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-# Carregar variáveis de ambiente
+# Load environment variables
 load_dotenv()
 
-# Configurar cliente OpenAI
+# Configure OpenAI client
 api_key = os.getenv("OPENAI_API_KEY")
 if not api_key:
-    logger.error("❌ OPENAI_API_KEY não configurada em .env")
+    logger.error("OPENAI_API_KEY not configured in .env")
     sys.exit(1)
 
 client = OpenAI(api_key=api_key)
-logger.info("✅ Cliente OpenAI GPT configurado")
+logger.info("OpenAI GPT client configured")
 
 
 def generate_instruction_response_pairs(
@@ -39,12 +39,12 @@ def generate_instruction_response_pairs(
     model: str = "gpt-3.5-turbo"
 ) -> List[Dict[str, str]]:
     """
-    Gera pares de instrução-resposta usando OpenAI API.
+    Gera pares de instrução-resposta usando a API OpenAI.
     
     Args:
-        domain: Domínio de aplicação (ex: "assistência técnica", "educação", etc.)
-        num_samples: Número de pares a gerar (default: 50)
-        model: Modelo OpenAI a usar (default: gpt-3.5-turbo)
+        domain: Domínio da aplicação (ex: "suporte técnico", "educação")
+        num_samples: Número de pares a gerar (padrão: 50)
+        model: Modelo OpenAI a usar (padrão: gpt-3.5-turbo)
     
     Returns:
         Lista de dicionários com 'instruction' e 'output'
@@ -52,7 +52,7 @@ def generate_instruction_response_pairs(
     
     dataset = []
     
-    # Prompt para gerar diversas instruções
+    # Prompt do sistema para gerar pares instrução-resposta
     system_prompt = f"""Você é um especialista em criar datasets de treinamento para modelos de linguagem.
 Gere instruções e respostas no domínio: {domain}
 
@@ -66,17 +66,17 @@ Certifique-se de que cada linha é um JSON válido e separado por quebra de linh
 
     logger.info(f"Iniciando geração de {num_samples} pares no domínio: {domain}")
     
-    # Gerar em lotes para evitar limite de tokens
+    # Gerar em lotes para evitar limites de tokens
     batch_size = 5
     batches = (num_samples + batch_size - 1) // batch_size
     
     for batch_idx in range(batches):
         batch_count = min(batch_size, num_samples - batch_idx * batch_size)
         
-        user_prompt = f"Gere {batch_count} pares de instrução-resposta diferentes, inovadores e de qualidade alta. Cada linha deve ser um JSON válido."
+        user_prompt = f"Gere {batch_count} pares instrução-resposta diferentes, inovadores e de alta qualidade. Cada linha deve ser um JSON válido."
         
         try:
-            logger.info(f"Processando lote {batch_idx + 1}/{batches}...")
+            logger.info(f"Processing batch {batch_idx + 1}/{batches}...")
             
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
@@ -97,16 +97,16 @@ Certifique-se de que cada linha é um JSON válido e separado por quebra de linh
                         pair = json.loads(line)
                         if "instruction" in pair and "output" in pair:
                             dataset.append(pair)
-                            logger.debug(f"Adicionado par {len(dataset)}: {pair['instruction'][:50]}...")
+                            logger.debug(f"Par adicionado {len(dataset)}: {pair['instruction'][:50]}...")
                     except json.JSONDecodeError:
                         logger.warning(f"Falha ao decodificar JSON: {line[:100]}")
                         continue
         
         except Exception as e:
-            logger.error(f"❌ Erro ao chamar OpenAI API GPT: {e}")
+            logger.error(f"Erro ao chamar API OpenAI: {e}")
             sys.exit(1)
     
-    logger.info(f"✅ Total de pares gerados: {len(dataset)}")
+    logger.info(f"Total de pares gerados: {len(dataset)}")
     return dataset[:num_samples]
 
 
@@ -115,14 +115,14 @@ def split_dataset(
     train_ratio: float = 0.9
 ) -> tuple:
     """
-    Divide o dataset em treino e teste.
+    Split dataset into train and test.
     
     Args:
-        dataset: Lista de pares instrução-resposta
-        train_ratio: Proporção de treino (default: 0.9 = 90%)
+        dataset: List of instruction-response pairs
+        train_ratio: Proportion for training (default: 0.9 = 90%)
     
     Returns:
-        Tupla (train_set, test_set)
+        Tuple (train_set, test_set)
     """
     split_idx = int(len(dataset) * train_ratio)
     return dataset[:split_idx], dataset[split_idx:]
@@ -133,11 +133,11 @@ def save_jsonl(
     filepath: Path
 ) -> None:
     """
-    Salva dados em formato JSONL.
+    Save data in JSONL format.
     
     Args:
-        data: Lista de dicionários
-        filepath: Caminho do arquivo JSONL
+        data: List of dictionaries
+        filepath: Path to JSONL file
     """
     filepath.parent.mkdir(parents=True, exist_ok=True)
     
@@ -145,7 +145,7 @@ def save_jsonl(
         for item in data:
             f.write(json.dumps(item, ensure_ascii=False) + '\n')
     
-    logger.info(f"Arquivo salvo: {filepath} ({len(data)} registros)")
+    logger.info(f"File saved: {filepath} ({len(data)} records)")
 
 
 def main():

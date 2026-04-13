@@ -1,6 +1,6 @@
 """
-Script de Inferência com Modelo Fine-tuned
-Demonstra como carregar o adaptador LoRA e fazer predições
+Inference script with fine-tuned model
+Demonstrates how to load LoRA adapter and make predictions
 """
 
 import torch
@@ -13,19 +13,19 @@ from transformers import AutoTokenizer
 from peft import AutoPeftModelForCausalLM
 from dotenv import load_dotenv
 
-# Configurar logging
+# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
 
-# Carregar variáveis de ambiente
+# Load environment variables
 load_dotenv()
 
 
 class LLMInference:
-    """Classe para fazer inferência com modelo fine-tuned"""
+    """Classe para inferência com modelo fine-tuned"""
     
     def __init__(
         self,
@@ -36,8 +36,8 @@ class LLMInference:
         Inicializa o modelo para inferência.
         
         Args:
-            adapter_path: Caminho do adaptador LoRA salvo
-            device: Device para carregar o modelo (auto, cuda, cpu)
+            adapter_path: Caminho para o adaptador LoRA salvo
+            device: Dispositivo para carregar o modelo (auto, cuda, cpu)
         """
         self.adapter_path = adapter_path
         self.device = device

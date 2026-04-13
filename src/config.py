@@ -1,5 +1,5 @@
 """
-Configurações centralizadas para o pipeline de fine-tuning
+Configuração centralizada para pipeline de fine-tuning
 """
  
 from dataclasses import dataclass
@@ -13,16 +13,16 @@ from typing import Optional
 class DataConfig:
     """Configuração para geração de dados sintéticos"""
     
-    # Domínio de aplicação
+    # Domínio da aplicação
     domain: str = "assistência técnica de computadores e resolução de problemas"
     
     # Quantidade de pares a gerar
     num_samples: int = 50
     
-    # Proporção de treino/teste
+    # Proporção treino/teste
     train_ratio: float = 0.9
     
-    # Modelo OpenAI para gerar dados
+    # Modelo OpenAI para geração de dados
     openai_model: str = "gpt-3.5-turbo"
     
     # Temperatura (criatividade)
@@ -41,7 +41,7 @@ class DataConfig:
 
 @dataclass
 class QuantizationConfig:
-    """Configuração de Quantização 4-bit"""
+    """Configuração para quantização 4-bit"""
     
     # Ativar quantização
     use_quantization: bool = True
@@ -52,12 +52,12 @@ class QuantizationConfig:
     # Dtype para computação
     bnb_4bit_compute_dtype: str = "float16"
     
-    # Double quantization
+    # Quantização dupla
     bnb_4bit_use_double_quant: bool = True
 
 
 # ============================================================================
-# CONFIGURAÇÃO DE LoRA
+# CONFIGURAÇÃO LoRA
 # ============================================================================
 
 @dataclass
@@ -67,7 +67,7 @@ class LoraConfig:
     # Rank das matrizes LoRA (obrigatório: 64)
     rank: int = 64
     
-    # Fator de escala dos novos pesos (obrigatório: 16)
+    # Fator de escala para novos pesos (obrigatório: 16)
     alpha: int = 16
     
     # Dropout para regularização (obrigatório: 0.1)
@@ -76,10 +76,10 @@ class LoraConfig:
     # Seed para reprodutibilidade
     seed: int = 42
     
-    # Módulos a treinar
+    # Módulos para treinar
     target_modules: list = None
     
-    # Módulos a salvar integralmente
+    # Módulos a salvar completamente
     modules_to_save: list = None
     
     def __post_init__(self):
@@ -95,40 +95,40 @@ class LoraConfig:
 
 @dataclass
 class TrainingConfig:
-    """Configuração de treinamento com otimizador paginado"""
+    """Configuração para treinamento com otimizador paginado"""
     
     # Modelo base
     model_name: str = "meta-llama/Llama-2-7b-hf"
     
-    # HuggingFace token (opcional)
+    # Token HuggingFace (opcional)
     hf_token: Optional[str] = None
     
     # Diretório de saída
     output_dir: str = "models/llama2-finetuned"
     
-    # Número de épocas (obrigatório)
+    # Número de épocas de treinamento (obrigatório)
     num_train_epochs: int = 3
     
-    # Batch size por device
+    # Tamanho de lote por dispositivo
     per_device_train_batch_size: int = 4
     per_device_eval_batch_size: int = 4
     
-    # Accumulation steps (simular batch maior)
+    # Passos de acumulação de gradiente (simula lote maior)
     gradient_accumulation_steps: int = 4
     
-    # Learning rate
+    # Taxa de aprendizado
     learning_rate: float = 2e-4
     
     # Otimizador (obrigatório: paged_adamw_32bit)
     optimizer: str = "paged_adamw_32bit"
     
-    # Learning rate scheduler (obrigatório: cosine)
+    # Scheduler de taxa de aprendizado (obrigatório: cosine)
     lr_scheduler_type: str = "cosine"
     
-    # Warmup ratio (obrigatório: 0.03 = 3%)
+    # Proporção de warmup (obrigatório: 0.03 = 3%)
     warmup_ratio: float = 0.03
     
-    # Gradient clipping
+    # Clipping de gradiente
     max_grad_norm: float = 0.3
     
     # Checkpoint e salvamento
@@ -142,13 +142,13 @@ class TrainingConfig:
     logging_steps: int = 10
     logging_dir: Optional[str] = None
     
-    # Reproducibilidade
+    # Reprodutibilidade
     seed: int = 42
     
-    # Mixed precision
+    # Precisão mista
     fp16: bool = True
     
-    # Max sequence length
+    # Comprimento máximo de sequência
     max_seq_length: int = 512
 
 
