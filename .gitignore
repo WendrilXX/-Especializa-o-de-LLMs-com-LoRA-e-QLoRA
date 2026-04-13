@@ -1,6 +1,7 @@
 # Ambiente Python
 venv/
 venv_gpu/
+.venv/
 __pycache__/
 *.py[cod]
 *$py.class
@@ -11,6 +12,8 @@ dist/
 build/
 pip-log.txt
 pip-delete-this-directory.txt
+.Python
+env/
 
 # IDE
 .vscode/
@@ -19,15 +22,31 @@ pip-delete-this-directory.txt
 *.swo
 *~
 .DS_Store
+*.sublime-workspace
+*.sublime-project
 
 # Dados e modelos
 data/*.jsonl
-models/
-checkpoint-*/
+models/checkpoint-*/
+models/test_output/
 
-# Logs
+# Logs e cache
 logs/
 *.log
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Variáveis de ambiente
+.env
+.env.local
+.env.*.local
+
+# Others
+*.pyc
+.DS_Store
+*.pyo
+.cache/
 runs/
 wandb/
 

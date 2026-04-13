@@ -97,14 +97,14 @@ class LoraConfig:
 class TrainingConfig:
     """Configuração para treinamento com otimizador paginado"""
     
-    # Modelo base
-    model_name: str = "meta-llama/Llama-2-7b-hf"
+    # Modelo base (TinyLlama é open-access e menor que Llama-2)
+    model_name: str = "TinyLlama/TinyLlama-1.1B-Chat-v1.0"
     
     # Token HuggingFace (opcional)
     hf_token: Optional[str] = None
     
     # Diretório de saída
-    output_dir: str = "models/llama2-finetuned"
+    output_dir: str = "models/tinyllama-finetuned"
     
     # Número de épocas de treinamento (obrigatório)
     num_train_epochs: int = 3

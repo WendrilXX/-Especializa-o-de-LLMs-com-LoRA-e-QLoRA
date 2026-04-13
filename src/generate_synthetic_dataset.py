@@ -288,17 +288,17 @@ def generate_synthetic_dataset(num_samples=50, output_dir="data"):
     with open(train_path, 'w', encoding='utf-8') as f:
         for item in train_dataset:
             f.write(json.dumps(item, ensure_ascii=False) + '\n')
-    logger.info(f"✅ Train dataset salvo: {train_path} ({len(train_dataset)} pares)")
+    logger.info(f"Train dataset salvo: {train_path} ({len(train_dataset)} pares)")
     
     with open(test_path, 'w', encoding='utf-8') as f:
         for item in test_dataset:
             f.write(json.dumps(item, ensure_ascii=False) + '\n')
-    logger.info(f"✅ Test dataset salvo: {test_path} ({len(test_dataset)} pares)")
+    logger.info(f"Test dataset salvo: {test_path} ({len(test_dataset)} pares)")
     
     with open(full_path, 'w', encoding='utf-8') as f:
         for item in dataset:
             f.write(json.dumps(item, ensure_ascii=False) + '\n')
-    logger.info(f"✅ Full dataset salvo: {full_path} ({len(dataset)} pares)")
+    logger.info(f"Full dataset salvo: {full_path} ({len(dataset)} pares)")
     
     return dataset
 

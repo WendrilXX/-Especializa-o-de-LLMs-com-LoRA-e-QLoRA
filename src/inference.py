@@ -55,7 +55,7 @@ class LLMInference:
         # Carregar tokenizador
         self.tokenizer = AutoTokenizer.from_pretrained(adapter_path)
         
-        logger.info("✅ Modelo carregado com sucesso")
+        logger.info("Modelo carregado com sucesso")
     
     def generate(
         self,
@@ -158,12 +158,12 @@ def interactive_mode():
     # Carregar modelo
     inference = LLMInference(str(adapter_path))
     
-    logger.info("\n🤖 Modo Interativo - Digite 'sair' para encerrar\n")
+    logger.info("\nModo Interativo - Digite 'sair' para encerrar\n")
     logger.info("="*60)
     
     while True:
         try:
-            prompt = input("\n📝 Sua pergunta: ").strip()
+            prompt = input("\nSua pergunta: ").strip()
             
             if prompt.lower() in ["sair", "exit", "quit"]:
                 logger.info("Encerrando...")
@@ -175,7 +175,7 @@ def interactive_mode():
             
             response = inference.generate(prompt)
             
-            print(f"\n🤖 Resposta:\n{response}")
+            print(f"\nResposta:\n{response}")
             print("-"*60)
         
         except KeyboardInterrupt:
@@ -226,7 +226,7 @@ def batch_inference_example():
     
     for prompt, response in zip(prompts, responses):
         print(f"❓ Pergunta: {prompt}")
-        print(f"✅ Resposta: {response[:200]}...")
+        print(f"Resposta: {response[:200]}...")
         print("-"*60)
 
 

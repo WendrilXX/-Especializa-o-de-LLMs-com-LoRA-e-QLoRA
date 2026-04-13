@@ -21,18 +21,18 @@ logger.info("TESTE DE MODELO FINE-TUNED COM LoRA")
 logger.info("=" * 60)
 
 # 1. Carregar modelo base e adapter
-logger.info("\n📂 Carregando modelo base...")
+logger.info("\nCarregando modelo base...")
 model = AutoModelForCausalLM.from_pretrained(base_model)
 
-logger.info("🔧 Carregando adapter LoRA...")
+logger.info("Carregando adapter LoRA...")
 model = PeftModel.from_pretrained(model, adapter_path)
 
 # 2. Carregar tokenizador
-logger.info("📝 Carregando tokenizador...")
+logger.info("Carregando tokenizador...")
 tokenizer = AutoTokenizer.from_pretrained(tokenizer_path)
 tokenizer.pad_token = tokenizer.eos_token
 
-logger.info("\n✅ Modelo carregado com sucesso!")
+logger.info("\nModelo carregado com sucesso!")
 logger.info(f"   Total de parâmetros: {model.base_model.num_parameters():,}")
 
 # 3. Testar com exemplos
@@ -69,7 +69,7 @@ with torch.no_grad():
         logger.info(f"   Resposta:\n   {response[len(prompt):]}")
 
 logger.info("\n" + "=" * 60)
-logger.info("✅ TESTE CONCLUÍDO COM SUCESSO!")
+logger.info("TESTE CONCLUÍDO COM SUCESSO!")
 logger.info("=" * 60)
 logger.info("\n📊 Estatísticas do modelo:")
 logger.info(f"   - Arquitetura: GPT-2 Medium")

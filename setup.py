@@ -23,10 +23,10 @@ def check_python_version() -> bool:
     """Verifica se está usando Python 3.9+"""
     version = sys.version_info
     if version.major == 3 and version.minor >= 9:
-        logger.info(f"✅ Python {version.major}.{version.minor}.{version.micro}")
+        logger.info(f"Python {version.major}.{version.minor}.{version.micro} - OK")
         return True
     else:
-        logger.error(f"❌ Python 3.9+ requerido (encontrado: {version.major}.{version.minor})")
+        logger.error(f"Python 3.9+ requerido (encontrado: {version.major}.{version.minor})")
         return False
 
 
@@ -35,11 +35,11 @@ def check_gpu() -> Tuple[bool, str]:
     if torch.cuda.is_available():
         device_name = torch.cuda.get_device_name(0)
         memory_gb = torch.cuda.get_device_properties(0).total_memory / 1e9
-        logger.info(f"✅ GPU detectada: {device_name}")
-        logger.info(f"   Memória: {memory_gb:.2f} GB")
+        logger.info(f"GPU detectada: {device_name}")
+        logger.info(f"  Memória: {memory_gb:.2f} GB")
         return True, device_name
     else:
-        logger.warning("⚠️  GPU não detectada. CPU será usada (muito lento).")
+        logger.warning("GPU não detectada. CPU será usada (muito lento).")
         return False, "CPU"
 
 
@@ -48,13 +48,13 @@ def check_cuda_toolkit() -> bool:
     try:
         result = subprocess.run(["nvidia-smi"], capture_output=True, text=True)
         if result.returncode == 0:
-            logger.info("✅ CUDA Toolkit detectado")
+            logger.info("CUDA Toolkit detectado - OK")
             return True
         else:
-            logger.warning("⚠️  CUDA Toolkit não encontrado")
+            logger.warning("CUDA Toolkit não encontrado")
             return False
     except FileNotFoundError:
-        logger.warning("⚠️  nvidia-smi não encontrado (CUDA pode estar instalado)")
+        logger.warning("nvidia-smi não encontrado (CUDA pode estar instalado)")
         return False
 
 
@@ -74,17 +74,17 @@ def check_dependencies() -> Tuple[bool, List[str]]:
     for package in required_packages:
         try:
             __import__(package)
-            logger.info(f"✅ {package}")
+            logger.info(f"{package} - OK")
         except ImportError:
-            logger.error(f"❌ {package} não instalado")
+            logger.error(f"{package} - NÃO INSTALADO")
             missing.append(package)
     
     if missing:
-        logger.error(f"\n❌ Pacotes faltando: {', '.join(missing)}")
+        logger.error(f"\nPacotes faltando: {', '.join(missing)}")
         logger.info(f"Instale com: pip install {' '.join(missing)}")
         return False, missing
     
-    logger.info("✅ Todas as dependências instaladas")
+    logger.info("Todas as dependências instaladas - OK")
     return True, []
 
 
@@ -94,19 +94,19 @@ def check_environment_file() -> bool:
     env_example_path = Path(".env.example")
     
     if env_path.exists():
-        logger.info("✅ Arquivo .env encontrado")
+        logger.info("Arquivo .env encontrado - OK")
         
         # Verificar se OPENAI_API_KEY está configurada
         with open(env_path) as f:
             content = f.read()
             if "OPENAI_API_KEY" in content and "seu_openai_api_key" not in content.lower():
-                logger.info("✅ OPENAI_API_KEY configurada")
+                logger.info("OPENAI_API_KEY configurada - OK")
                 return True
             else:
-                logger.warning("⚠️  OPENAI_API_KEY não configurada no .env")
+                logger.warning("OPENAI_API_KEY não configurada no .env")
                 return False
     else:
-        logger.warning("⚠️  Arquivo .env não encontrado")
+        logger.warning("Arquivo .env não encontrado")
         if env_example_path.exists():
             logger.info(f"   Use: cp .env.example .env")
         return False
@@ -119,25 +119,25 @@ def check_data_directory() -> bool:
     for dir_name in required_dirs:
         path = Path(dir_name)
         if path.exists():
-            logger.info(f"✅ Diretório {dir_name}/ existe")
+            logger.info(f"Diretório {dir_name}/ - encontrado")
         else:
-            logger.warning(f"⚠️  Diretório {dir_name}/ não encontrado")
+            logger.warning(f"Diretório {dir_name}/ - não encontrado")
     
     return True
 
 
 def check_model_access() -> bool:
-    """Testa acesso ao modelo Llama 2"""
+    """Testa acesso ao modelo TinyLlama"""
     try:
         from transformers import AutoConfig
-        logger.info("⏳ Testando acesso ao modelo Llama 2...")
+        logger.info("Testando acesso ao modelo TinyLlama...")
         # Este teste é rápido (apenas baixa config)
-        config = AutoConfig.from_pretrained("meta-llama/Llama-2-7b-hf")
-        logger.info("✅ Acesso ao modelo Llama 2 funcionando")
+        config = AutoConfig.from_pretrained("TinyLlama/TinyLlama-1.1B-Chat-v1.0")
+        logger.info("Acesso ao modelo TinyLlama - OK")
         return True
     except Exception as e:
-        logger.warning(f"⚠️  Não foi possível acessar Llama 2: {e}")
-        logger.info("   Pode ser necessário: huggingface-cli login")
+        logger.warning(f"Não foi possível acessar TinyLlama: {e}")
+        logger.info("   Verifique sua conexão com a internet")
         return False
 
 
@@ -174,12 +174,12 @@ def main():
         ("Dependências Python", check_dependencies),
         ("Arquivo .env", check_environment_file),
         ("Estrutura de diretórios", check_data_directory),
-        ("Acesso ao modelo Llama 2", check_model_access),
+        ("Acesso ao modelo TinyLlama", check_model_access),
     ]
     
     results = {}
     for name, check_func in checks:
-        logger.info(f"\n🔍 Verificando: {name}")
+        logger.info(f"\nVerificando: {name}")
         logger.info("-" * 60)
         try:
             if name == "GPU CUDA":
@@ -203,22 +203,22 @@ def main():
     total = len(results)
     
     for name, result in results.items():
-        status = "✅" if result else "❌"
-        logger.info(f"{status} {name}")
+        status = "OK" if result else "ERRO"
+        logger.info(f"{status}: {name}")
     
     logger.info(f"\nTotal: {passed}/{total} verificações passadas")
     
     if passed == total:
-        logger.info("\n✅ Ambiente pronto! Execute:")
+        logger.info("\nAmbiente pronto! Execute:")
         logger.info("   python src/generate_dataset.py  # Gerar dados")
-        logger.info("   python src/finetune_llama.py    # Fine-tuning")
+        logger.info("   python src/finetune_simple.py   # Fine-tuning")
         return 0
     elif passed >= total - 2:
-        logger.warning("\n⚠️  Ambiente parcialmente configurado.")
+        logger.warning("\nAmbiente parcialmente configurado.")
         logger.warning("   Verifique os erros acima antes de executar.")
         return 1
     else:
-        logger.error("\n❌ Ambiente não pronto para execução.")
+        logger.error("\nAmbiente não pronto para execução.")
         logger.error("   Corrija os erros acima antes de prosseguir.")
         return 2
 

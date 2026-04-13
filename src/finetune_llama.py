@@ -149,7 +149,7 @@ class LLMFineTuner:
                 "401" in str(e) or "access" in error_msg or
                 "gated" in error_msg):
                 
-                logger.warning(f"⚠️  Não foi possível acessar {self.model_name}")
+                logger.warning(f"Não foi possível acessar {self.model_name}")
                 logger.warning(f"Erro: {str(e)[:200]}")
                 
                 # Usar modelo alternativo
@@ -171,7 +171,7 @@ class LLMFineTuner:
                 raise
         
         # Carregar modelo
-        logger.info(f"✅ Modelo carregado: {model_to_load}")
+        logger.info(f"Modelo carregado: {model_to_load}")
         logger.info(f"   Device: {next(model.parameters()).device}")
         
         # Configurar para TRL
@@ -372,7 +372,7 @@ class LLMFineTuner:
             tokenizer.save_pretrained(adapter_save_path)
             
             logger.info(f"Modelo salvo em: {adapter_save_path}")
-            logger.info("\n✅ Fine-tuning concluído com sucesso!")
+            logger.info("\nFine-tuning concluído com sucesso!")
             
             return trainer
         

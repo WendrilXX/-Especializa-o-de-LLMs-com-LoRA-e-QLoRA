@@ -30,18 +30,18 @@ def run_command(command: list, description: str) -> bool:
         True se sucesso, False se erro
     """
     logger.info("\n" + "="*60)
-    logger.info(f"▶️  {description}")
+    logger.info(f"{description}")
     logger.info("="*60)
     
     try:
         result = subprocess.run(command, check=True)
-        logger.info(f"✅ {description} concluído com sucesso\n")
+        logger.info(f"{description} - concluído com sucesso\n")
         return True
     except subprocess.CalledProcessError as e:
-        logger.error(f"❌ Erro ao executar {description}: {e}\n")
+        logger.error(f"Erro ao executar {description}: {e}\n")
         return False
     except FileNotFoundError as e:
-        logger.error(f"❌ Comando não encontrado: {e}\n")
+        logger.error(f"Comando não encontrado: {e}\n")
         return False
 
 
@@ -49,7 +49,7 @@ def main():
     """Função principal"""
     
     parser = argparse.ArgumentParser(
-        description="Pipeline Completo de Fine-tuning Llama 2 com LoRA/QLoRA"
+        description="Pipeline Completo de Fine-tuning com LoRA/QLoRA"
     )
     
     parser.add_argument(
@@ -96,7 +96,7 @@ def main():
         return 1
     
     logger.info("\n" + "="*60)
-    logger.info("🚀 PIPELINE DE FINE-TUNING LLAMA 2 COM LoRA/QLoRA")
+    logger.info("PIPELINE DE FINE-TUNING COM LoRA/QLoRA")
     logger.info("="*60 + "\n")
     
     # 1. Setup
@@ -107,7 +107,7 @@ def main():
                 "Verificação de Ambiente"
             )
             if not success and not args.skip_checks:
-                logger.error("❌ Setup falhou. Corrija os erros acima.")
+                logger.error("Setup falhou. Corrija os erros acima.")
                 return 1
     
     # 2. Gerar Dados
@@ -117,19 +117,19 @@ def main():
             "Geração de Dataset Sintético"
         )
         if not success:
-            logger.error("❌ Geração de dados falhou.")
+            logger.error("Geração de dados falhou.")
             return 1
     
     # 3. Fine-tuning
     if args.train or args.all:
         success = run_command(
-            [sys.executable, "src/finetune_llama.py"],
+            [sys.executable, "src/finetune_simple.py"],
             "Fine-tuning com LoRA/QLoRA"
         )
         if not success:
-            logger.error("❌ Fine-tuning falhou.")
+            logger.error("Fine-tuning falhou.")
             return 1
-        logger.info("\n✅ Pipeline de treinamento completado!")
+        logger.info("\nPipeline de treinamento concluído com sucesso!")
         logger.info("Para testar o modelo, execute: python main.py --infer\n")
     
     # 4. Inferência
@@ -139,19 +139,19 @@ def main():
             "Modo de Inferência"
         )
         if not success:
-            logger.error("❌ Inferência falhou.")
+            logger.error("Inferência falhou.")
             return 1
     
     # Se apenas --all, mostrar resumo
     if args.all:
         logger.info("\n" + "="*60)
-        logger.info("✅ PIPELINE COMPLETO EXECUTADO COM SUCESSO!")
+        logger.info("PIPELINE COMPLETO EXECUTADO COM SUCESSO!")
         logger.info("="*60)
-        logger.info("\n📂 Arquivos gerados:")
-        logger.info("  ✓ data/train_dataset.jsonl")
-        logger.info("  ✓ data/test_dataset.jsonl")
-        logger.info("  ✓ models/llama2-finetuned_*")
-        logger.info("\n🧪 Para testar o modelo:")
+        logger.info("\nArquivos gerados:")
+        logger.info("  | data/train_dataset.jsonl")
+        logger.info("  | data/test_dataset.jsonl")
+        logger.info("  | models/tinyllama-finetuned_*")
+        logger.info("\nPara testar o modelo:")
         logger.info("  python main.py --infer\n")
     
     return 0
