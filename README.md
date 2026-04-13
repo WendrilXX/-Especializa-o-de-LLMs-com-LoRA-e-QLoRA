@@ -321,3 +321,16 @@ learning_rate=5e-4  # ao invés de 2e-4
 - [LoRA Paper: Hu et al. (2021)](https://arxiv.org/abs/2106.09685)
 - [QLoRA Paper: Dettmers et al. (2023)](https://arxiv.org/abs/2305.14314)
 
+## O que está no GitHub
+
+| Pasta/Arquivo | Enviado | Por quê |
+|---|---|---|
+| `src/` | ✅ | Source code essencial para execução |
+| `data/*.jsonl` | ❌ | Regenerado pelo `generate_dataset.py` com sua chave OpenAI |
+| `models/` | ✅ | Modelos exemplo (validação de que funciona) |
+| `models/checkpoint-*/` | ❌ (ignorado) | Checkpoints intermediários desnecessários |
+| `models/test_output/` | ❌ (ignorado) | Outputs de testes descartados |
+| `.env` | ❌ | Variáveis sensíveis → use `cp .env.example .env` |
+| `requirements.txt` | ✅ | Dependências Python |
+| `README.md` | ✅ | Documentação completa |
+
