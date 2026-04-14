@@ -6,7 +6,7 @@ Pipeline completo de fine-tuning de modelos de linguagem fundacionais utilizando
 
 ### Atribuição de IA
 
-**Partes geradas/complementadas com IA (GitHub Copilot, Claude Haiku 3.5), revisadas por [SEU NOME].**
+**Partes geradas/complementadas com IA , revisadas por Wendril Gabriel.**
 
 Este pipeline foi desenvolvido com assistência de IA, com revisão crítica e validação manual de:
 - Configuração QLoRA (BitsAndBytesConfig) com nf4 + float16
